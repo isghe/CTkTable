@@ -7,7 +7,10 @@ import copy
 
 class CTkTable(customtkinter.CTkFrame):
     """ CTkTable Widget """
-    
+    @staticmethod
+    def default_cell_generator ( master ,row, column, **kwarg):
+        return customtkinter.CTkButton (master, **kwarg)
+
     def __init__(
         self,
         master: any,
@@ -34,10 +37,13 @@ class CTkTable(customtkinter.CTkFrame):
         hover: bool = False,
         justify: str = "center",
         wraplength: int = 1000,
+        cell_generator: any = None,
         **kwargs):
         
         super().__init__(master, fg_color="transparent")
-        
+        if cell_generator is None:
+            cell_generator = CTkTable.default_cell_generator
+
         if values is None:
             values = [[None,None],[None,None]]
             
@@ -90,6 +96,7 @@ class CTkTable(customtkinter.CTkFrame):
             
         self.frame = {}
         self.corner_buttons = {}
+        self.cell_generator = cell_generator
         self.draw_table(**kwargs)
         
     def draw_table(self, **kwargs):
@@ -252,14 +259,14 @@ class CTkTable(customtkinter.CTkFrame):
                         del args["justify"]
                     if value is None:
                         value = " "
-                    self.frame[i,j] = customtkinter.CTkButton(self.inside_frame, background_corner_colors=corners,
+                    self.frame[i,j] = self.cell_generator(self.inside_frame, row=i, column=j, background_corner_colors=corners,
                                                               font=self.font, 
                                                               corner_radius=corner_radius,
                                                               text=value,
                                                               border_width=0,
                                                               command=(lambda e=self.data[i,j]: self.command(e)) if self.command else None, **args)
                     self.frame[i,j].grid(column=j, row=i, padx=padx, pady=pady, sticky="nsew")
-                    if self.frame[i,j]._text_label is not None:
+                    if hasattr (self.frame[i,j], '_text_label') and self.frame[i,j]._text_label is not None:
                         self.frame[i,j]._text_label.config(wraplength=self.wraplength)
                     
                     if hover_modify:
