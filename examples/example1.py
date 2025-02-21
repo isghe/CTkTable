@@ -3,6 +3,7 @@
 # ₿ python3.11 -m examples.example1
 
 import sys
+
 import tkinter
 import customtkinter as ctk
 
@@ -11,6 +12,8 @@ from CTkTable import CTkTable
 
 class App(ctk.CTk):
     """CTkTable: example1"""
+
+    super_frame: ctk.CTkBaseClass
 
     def my_cell_generator2(self, master, row, column, **kwarg):
         """just a cell generator2"""
@@ -37,36 +40,47 @@ class App(ctk.CTk):
             master, textvariable=tkinter.StringVar(master, kwarg["text"])
         )
 
-    def __init__(self, title: str, geometry: str, **kwargs):
-        super().__init__(**kwargs)
-        print(sys.version)
-        self.title(title)
-        self.geometry(geometry)
-
+    def redraw(self):
+        """redraw"""
         values = []
         for i in range(3):
             row = []
             for j in range(2):
                 row.append((i + 1) * (j + 1))
             values.append(row)
-
-        self.table1 = CTkTable(self, values=values)
+        if self.super_frame is not None:
+            self.super_frame.destroy()
+        self.super_frame = ctk.CTkFrame(self)
+        self.super_frame.grid_rowconfigure(0, weight=1)
+        self.super_frame.grid_columnconfigure(0, weight=1)
+        self.table1 = CTkTable(self.super_frame, values=values)
         self.table1.grid(padx=4, pady=4)
 
         self.table2 = CTkTable(
-            self, values=values, cell_generator=self.my_cell_generator2
+            self.super_frame, values=values, cell_generator=self.my_cell_generator2
         )
         self.table2.grid(padx=4, pady=4)
 
         self.table3 = CTkTable(
-            self, values=values, cell_generator=self.my_cell_generator3
+            self.super_frame, values=values, cell_generator=self.my_cell_generator3
         )
         self.table3.grid(padx=4, pady=4)
 
         self.table4 = CTkTable(
-            self, values=values, cell_generator=self.my_cell_generator4
+            self.super_frame, values=values, cell_generator=self.my_cell_generator4
         )
         self.table4.grid(padx=4, pady=4)
+        self.super_frame.grid()
+
+    def __init__(self, title: str, geometry: str, **kwargs):
+        super().__init__(**kwargs)
+        self.super_frame = None
+        print(sys.version)
+        self.title(title)
+        self.geometry(geometry)
+        button = ctk.CTkButton(self, text="Redraw", command=self.redraw)
+        button.grid()
+        self.redraw()
 
 
 if __name__ == "__main__":
