@@ -2,13 +2,14 @@
 # License: MIT
 # Author: Akash Bora
 
+from typing import Callable
 import customtkinter
 import copy
 
 class CTkTable(customtkinter.CTkFrame):
     """ CTkTable Widget """
     @staticmethod
-    def default_cell_generator ( master ,row, column, **kwarg):
+    def default_cell_generator (master: customtkinter.CTkBaseClass ,row: int, column: int, **kwarg):
         return customtkinter.CTkButton (master, **kwarg)
 
     def __init__(
@@ -37,7 +38,7 @@ class CTkTable(customtkinter.CTkFrame):
         hover: bool = False,
         justify: str = "center",
         wraplength: int = 1000,
-        cell_generator: any = None,
+        cell_generator: Callable [[customtkinter.CTkBaseClass, int, int],customtkinter.CTkBaseClass] = None,
         **kwargs):
         
         super().__init__(master, fg_color="transparent")
