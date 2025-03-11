@@ -30,14 +30,18 @@ class App(ctk.CTk):
     def my_cell_generator3(self, master, row, column, **kwarg):
         """just a cell generator3"""
         if 0 == column:
-            return ctk.CTkCheckBox(master, text=f"checkbox{row}")
+            return ctk.CTkCheckBox(
+                master, text=f"checkbox{row}", bg_color=kwarg["fg_color"]
+            )
         return CTkTable.default_cell_generator(master, row, column, **kwarg)
         # return self.my_cell_generator2(master, row, column, **kwarg)
 
     def my_cell_generator4(self, master, row, column, **kwarg):
         """just a cell generator4"""
         return ctk.CTkEntry(
-            master, textvariable=tkinter.StringVar(master, kwarg["text"])
+            master,
+            textvariable=tkinter.StringVar(master, kwarg["text"]),
+            fg_color=kwarg["fg_color"],
         )
 
     def redraw(self):
