@@ -9,7 +9,7 @@ import copy
 class CTkTable(customtkinter.CTkFrame):
     """ CTkTable Widget """
     @staticmethod
-    def default_cell_generator (master: customtkinter.CTkBaseClass ,row: int, column: int, **kwarg):
+    def default_cell_generator (master: customtkinter.CTkBaseClass ,row: int, column: int, **kwarg)->customtkinter.CTkBaseClass:
         return customtkinter.CTkButton (master, **kwarg)
 
     def __init__(

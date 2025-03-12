@@ -15,7 +15,7 @@ class App(ctk.CTk):
 
     super_frame: ctk.CTkBaseClass
 
-    def my_cell_generator2(self, master, row, column, **kwarg):
+    def my_cell_generator2(self, master, row, column, **kwarg)->ctk.CTkBaseClass:
         """just a cell generator2"""
         frame = ctk.CTkFrame(master)
         label = ctk.CTkLabel(frame, text=f"{row}-{column}", fg_color=kwarg["fg_color"])
@@ -27,7 +27,7 @@ class App(ctk.CTk):
         button.grid(row=0, column=1)
         return frame
 
-    def my_cell_generator3(self, master, row, column, **kwarg):
+    def my_cell_generator3(self, master, row, column, **kwarg)->ctk.CTkBaseClass:
         """just a cell generator3"""
         if 0 == column:
             return ctk.CTkCheckBox(
@@ -36,7 +36,7 @@ class App(ctk.CTk):
         return CTkTable.default_cell_generator(master, row, column, **kwarg)
         # return self.my_cell_generator2(master, row, column, **kwarg)
 
-    def my_cell_generator4(self, master, row, column, **kwarg):
+    def my_cell_generator4(self, master, row, column, **kwarg)->ctk.CTkBaseClass:
         """just a cell generator4"""
         return ctk.CTkEntry(
             master,
