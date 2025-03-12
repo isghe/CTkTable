@@ -92,6 +92,7 @@ _here, **args** means ctkbutton parameters which can also be passed_
 | wraplength | set the width of cell text |
 | justify | anchor the position of the cell text |
 | empty_string_replacement | replace None or Empty string with empty_string_replacement (default is a space " ")
+| **cell_generator** | cell_generator (defalt is `customtkinter.CTkButton`)
 | **command** | specify a command when a table cell is pressed, [returns row, column, value] |
 | **other button parameters* | all other ctk button parameters can be passed |
 
